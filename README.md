@@ -106,3 +106,11 @@ This implements the CourseRepository interface and is responsible for connecting
 The connection string, INSERT_COURSE & DataSource fields are defined.
 
 saveCourse & getAllCourses are overridden to save a course into the db and list the courses currently saved.
+
+CourseStorageService
+
+This has been created to handle to saving of the courses to the DB by looping through each course in the course list.
+
+CourseStorageService.test
+
+Due to CourseStorageService being package private our own implementation of this has been created in order to test this service
