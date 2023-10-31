@@ -69,7 +69,7 @@ Created a manual http client HttpClient CLIENT
 Created an OBJECT_MAPPER (this is for the json)
 getCoursesFor sends a get request to the URI (passing in the authorID) and returns a list of the courses using the toPluralSightCourses method which converts the json response.
 
-Added a parametised test for the durationInMinutes() method in the test folder.
+Added a parametrized test for the durationInMinutes() method in the test folder.
 
 Had to add pom.xml to include the below
 
@@ -79,3 +79,30 @@ Had to add pom.xml to include the below
             <version>5.8.2</version>
             <scope>test</scope>
         </dependency>
+
+Split existing code into 3 modules, course-info, course-info-cli & course-info-repository, moved the existing src folder into the course-info-cli
+folder, updated the child pom.xml file to move the dependencies from the 'parent' pom.xml file.
+Had to open up modules settings on course-info and remove source, test and resource folders from coure-info-cli before 
+running mvn clean verify in the terminal successfully.
+
+Course
+
+Created the course record under course-info-repository, this is to structure the coursed for db insertion.
+
+The filled method ensures the String values are not blank or null, the constructor calls this method on the String values.
+
+CourseTest
+
+Created 3 test methods using junit assertThrows (had to move junit dependencies to course-info-repository pom.xml), these were created by myself as were provided as a challenge during the course.
+
+CourseRepository
+
+Created CourseRepository interface which has void  saveCourse(Course course) & List<Course> getAllCourses(); methods.
+
+CourseJdbcRepository
+
+This implements the CourseRepository interface and is responsible for connecting to the h2 db.
+
+The connection string, INSERT_COURSE & DataSource fields are defined.
+
+saveCourse & getAllCourses are overridden to save a course into the db and list the courses currently saved.
