@@ -114,3 +114,7 @@ This has been created to handle to saving of the courses to the DB by looping th
 CourseStorageService.test
 
 Due to CourseStorageService being package private our own implementation of this has been created in order to test this service
+
+Added openCourseRepository to CourseRepository to return a new instance of a CourseJdbcRepository, this is so it can then be used to open a db connection in CourseRetreiver.
+
+

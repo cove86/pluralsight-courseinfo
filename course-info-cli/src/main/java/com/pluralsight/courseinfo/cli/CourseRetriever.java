@@ -1,6 +1,8 @@
 package com.pluralsight.courseinfo.cli;
 import com.pluralsight.courseinfo.cli.service.CourseRetrievalService;
+import com.pluralsight.courseinfo.cli.service.CourseStorageService;
 import com.pluralsight.courseinfo.cli.service.PluralSightCourse;
+import com.pluralsight.courseinfo.repository.CourseRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -26,6 +28,8 @@ public class CourseRetriever {
     private static void retrieveCourses(String authorId) {
         LOG.info("Retrieving courses for author '{}'", authorId);
         CourseRetrievalService courseRetrievalService = new CourseRetrievalService();
+        CourseRepository courseRepository = CourseRepository.openCourseRepository("./db_init.sql");
+        CourseStorageService courseStorageService = new CourseStorageService(courseRepository);
 
         List<PluralSightCourse> coursesToStore = courseRetrievalService.getCoursesFor(authorId)
                 .stream()
@@ -33,5 +37,7 @@ public class CourseRetriever {
                 .toList()
                 ; // lambda in filter can also be done like this (not(PluralsightCourse::isRetired)
         LOG.info("Retrieved the following {} courses {}", coursesToStore.size(), coursesToStore);
+        courseStorageService.storePluralsightCourses(coursesToStore);
+        LOG.info("Courses successfully stored");
     }
 }
