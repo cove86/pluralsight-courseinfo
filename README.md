@@ -117,4 +117,5 @@ Due to CourseStorageService being package private our own implementation of this
 
 Added openCourseRepository to CourseRepository to return a new instance of a CourseJdbcRepository, this is so it can then be used to open a db connection in CourseRetreiver.
 
-
+Creating REST API
+Using JAX-RS

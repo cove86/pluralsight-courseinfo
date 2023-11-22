@@ -28,7 +28,7 @@ public class CourseRetriever {
     private static void retrieveCourses(String authorId) {
         LOG.info("Retrieving courses for author '{}'", authorId);
         CourseRetrievalService courseRetrievalService = new CourseRetrievalService();
-        CourseRepository courseRepository = CourseRepository.openCourseRepository("./db_init.sql");
+        CourseRepository courseRepository = CourseRepository.openCourseRepository("./courses.db");
         CourseStorageService courseStorageService = new CourseStorageService(courseRepository);
 
         List<PluralSightCourse> coursesToStore = courseRetrievalService.getCoursesFor(authorId)
@@ -39,5 +39,7 @@ public class CourseRetriever {
         LOG.info("Retrieved the following {} courses {}", coursesToStore.size(), coursesToStore);
         courseStorageService.storePluralsightCourses(coursesToStore);
         LOG.info("Courses successfully stored");
+
+         System.out.println(courseRepository.getAllCourses());
     }
 }
