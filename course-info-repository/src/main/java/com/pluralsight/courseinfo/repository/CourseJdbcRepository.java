@@ -5,16 +5,15 @@ import org.h2.jdbcx.JdbcDataSource;
 import org.h2.util.json.JSONTarget;
 
 import javax.sql.DataSource;
+import java.io.IOException;
+import java.io.InputStream;
 import java.sql.*;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 class CourseJdbcRepository implements CourseRepository {
 
     private static final String H2_DATABASE_URL =
-            "jdbc:h2:file:%s;AUTO_SERVER=TRUE;INIT=RUNSCRIPT FROM './db_init.sql'";
+            loadJdbcConnectionString();
 
     private static final String INSERT_COURSE = """
     MERGE INTO Courses (id, name, length, url)
@@ -26,6 +25,18 @@ class CourseJdbcRepository implements CourseRepository {
             WHERE id = ?
             """;
     private final DataSource dataSource;
+
+    private static String loadJdbcConnectionString() {
+        try (InputStream propertiesStream =
+                     CourseJdbcRepository.class.getResourceAsStream("/repository.properties")) {
+            Properties properties = new Properties();
+            properties.load(propertiesStream);
+            return properties.getProperty("course-info.jdbcConnection");
+        } catch (IOException e) {
+            throw new IllegalStateException("Could not load database connection string");
+        }
+
+    }
 
     public CourseJdbcRepository(String databaseFile) {
         JdbcDataSource jdbcDataSource = new JdbcDataSource();
