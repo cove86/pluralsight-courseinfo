@@ -24,6 +24,16 @@ class CourseJdbcRepository implements CourseRepository {
             UPDATE Courses SET notes = ?
             WHERE id = ?
             """;
+
+    private final String DELETE_COURSE = """
+            DELETE FROM Courses
+            WHERE id = ?
+            """;
+
+    private final String GET_SINGLE_COURSE = """
+            SELECT * FROM Courses
+            WHERE id = ?
+            """;
     private final DataSource dataSource;
 
     private static String loadJdbcConnectionString() {
@@ -88,6 +98,17 @@ class CourseJdbcRepository implements CourseRepository {
             statement.execute();
         } catch (SQLException e) {
             throw new RepositoryException("Failed to add note to " + id, e);
+        }
+    }
+
+    @Override
+    public void deleteCourse(String id) {
+        try (Connection connection = dataSource.getConnection()) {
+            PreparedStatement statement = connection.prepareStatement(DELETE_COURSE);
+            statement.setString(1, id);
+            statement.execute();
+        } catch (SQLException e) {
+            throw new RepositoryException("Failed to delete course " + id, e);
         }
     }
 }

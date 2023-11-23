@@ -45,4 +45,8 @@ public class CourseResource {
     public void addNotes(@PathParam("id") String id, String notes){
         courseRepository.addNotes(id, notes);
     }
+
+    @DELETE
+    @Path("/{id}")
+    public void deleteCourse(@PathParam("id") String id) {courseRepository.deleteCourse(id);}
 }

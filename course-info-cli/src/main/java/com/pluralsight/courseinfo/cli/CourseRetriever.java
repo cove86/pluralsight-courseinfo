@@ -40,6 +40,8 @@ public class CourseRetriever {
         courseStorageService.storePluralsightCourses(coursesToStore);
         LOG.info("Courses successfully stored");
 
-         System.out.println(courseRepository.getAllCourses());
+        System.out.println(courseRepository.getAllCourses());
+
+
     }
 }

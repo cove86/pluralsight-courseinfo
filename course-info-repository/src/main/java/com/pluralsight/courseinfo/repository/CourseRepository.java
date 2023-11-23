@@ -11,6 +11,8 @@ public interface CourseRepository {
 
     void addNotes(String id, String notes);
 
+    void deleteCourse(String id);
+
     static CourseRepository openCourseRepository(String databaseFile){
         return new CourseJdbcRepository(databaseFile);
     }

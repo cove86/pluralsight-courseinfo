@@ -29,6 +29,7 @@ public class CourseServer {
         ResourceConfig config = new ResourceConfig().register(new CourseResource((courseRepository)));
 
         GrizzlyHttpServerFactory.createHttpServer(URI.create(BASE_URI), config);
+
     }
 
     private static String loadDatabaseFileName() {
