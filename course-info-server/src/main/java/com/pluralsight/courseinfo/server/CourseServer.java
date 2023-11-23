@@ -20,7 +20,7 @@ public class CourseServer {
         SLF4JBridgeHandler.install();
     }
     private static final Logger LOG = LoggerFactory.getLogger(CourseServer.class);
-    private static final String BASE_URI = "http://localhost:8080/"; // move into properties
+    private static final String BASE_URI = loadUriName(); // move into properties
 
     public static void main(String... args){
         String databaseFileName = loadDatabaseFileName();
@@ -39,6 +39,18 @@ public class CourseServer {
             return properties.getProperty("course-info.database");
         } catch (IOException e) {
             throw new IllegalStateException("Could not load database filename");
+        }
+
+    }
+
+    private static String loadUriName() {
+        try (InputStream propertiesStream =
+                     CourseServer.class.getResourceAsStream("/server.properties")) {
+            Properties properties = new Properties();
+            properties.load(propertiesStream);
+            return properties.getProperty("course-info.URI");
+        } catch (IOException e) {
+            throw new IllegalStateException("Could not load URI filename");
         }
 
     }
